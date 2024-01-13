@@ -49,7 +49,7 @@ export const OrthographyPage = () => {
         <div className="grid grid-cols-12 gap-y-2">
 
           {/* {Bienvenida} */}
-          <GptMessage text="¡Hola!, escribe el texto que quieres corregir" />
+          <GptMessage text="¡Hola!, escribe el texto que quieres corregir." />
 
           {
             messages.map((message, index) => (
