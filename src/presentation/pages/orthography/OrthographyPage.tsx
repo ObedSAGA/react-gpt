@@ -39,8 +39,6 @@ export const OrthographyPage = () => {
     }
     
     setIsLoading(false);
-
-    //TODO: Añadir el mensaje en isGPT en true
   }
 
   return (
@@ -49,7 +47,7 @@ export const OrthographyPage = () => {
         <div className="grid grid-cols-12 gap-y-2">
 
           {/* {Bienvenida} */}
-          <GptMessage text="¡Hola!, escribe el texto que quieres corregir." />
+          <GptMessage text="¡Hola!, te puedo ayudar a corregir tus textos 😍 " />
 
           {
             messages.map((message, index) => (

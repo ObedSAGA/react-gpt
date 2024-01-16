@@ -8,7 +8,7 @@ export const menuRoutes = [
       to: "/orthography",
       icon: "fa-solid fa-spell-check",
       title: "Ortografía",
-      description: "Corregir ortografía",
+      description: "Corrector ortográfico",
       component: <OrthographyPage />
     },
     {
@@ -21,7 +21,7 @@ export const menuRoutes = [
     {
       to: "/pros-cons-stream",
       icon: "fa-solid fa-water",
-      title: "Como stream",
+      title: "Pros-Cons Stream",
       description: "Con stream de mensajes",
       component: <ProsConsStreamPage />
     },

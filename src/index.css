@@ -15,7 +15,7 @@ h1 {
 }
 
 p {
-  @apply mb-4;
+  @apply mb-4 mt-4;
 }
 
 ul {
@@ -23,7 +23,7 @@ ul {
 }
 
 strong {
-  @apply font-bold text-indigo-400;
+  @apply font-bold text-indigo-400 text-xl;
 }
 
 em {
