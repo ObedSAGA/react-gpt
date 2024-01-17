@@ -7,7 +7,7 @@ interface Props {
 
 export const GptMessage = ({text}:Props) => {
   return (
-    <div className="col-start-1 col-end-8 p-3 rounded-lg">
+    <div className="col-start-1 col-end-8 p-3 rounded-lg fade-in">
         <div className="flex flex-row items-start">
             <div className="flex items-center justify-center h-10 w-10 rounded-full bg-green-600 flex-shrink-0">
                 G

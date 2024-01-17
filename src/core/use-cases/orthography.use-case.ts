@@ -17,7 +17,7 @@ export const orthographyUseCase =async (prompt:string) => {
 
         return {
             ok: true,
-            ...data
+            ...data,
         }
 
     } catch (error) {
