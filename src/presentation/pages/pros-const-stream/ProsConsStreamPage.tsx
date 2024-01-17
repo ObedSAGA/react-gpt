@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GptMessage, MyMessage, TypingLoader, TextMessageBox } from "../../components";
-import { ProsConsStreamUseCase } from "../../../core/use-cases";
+import { ProsConsStreamGeneratorUseCase } from "../../../core/use-cases";
 
 
 
@@ -11,6 +11,8 @@ interface Message {
 
 export const ProsConsStreamPage = () => {
 
+  
+
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([])
 
@@ -18,29 +20,46 @@ export const ProsConsStreamPage = () => {
     setIsLoading(true);
     setMessages((prev) => [...prev, { text: text, isGpt: false }]);
 
-    const reader = await ProsConsStreamUseCase(text);
+    // ?? Código con función generadora
 
+    const stream = await ProsConsStreamGeneratorUseCase(text);
     setIsLoading(false);
 
-    if (!reader) return alert('No se pudo genera el reader');
-  
-    const decoder = new TextDecoder();
-    let message = '';
-    setMessages((prev) => [...prev, { text: message, isGpt: true }]);
-
-    while (true){
-      const {value, done} = await reader.read();
-      if (done) break;
-
-      const decodedChunk = decoder.decode(value, {stream: true});
-      message += decodedChunk;
-
+    setMessages((prev) => [...prev, { text: text, isGpt: true }]);
+    
+    for await (const text of stream) {
       setMessages((prev) => {
         const lastMessages = [...prev];
-        lastMessages[lastMessages.length - 1].text = message;
+        lastMessages[lastMessages.length - 1].text = text;
         return lastMessages;
       })
     }
+
+
+  // ??Código sin el uso de función generadores.
+    // const reader = await ProsConsStreamUseCase(text);
+
+    // setIsLoading(false);
+
+    // if (!reader) return alert('No se pudo genera el reader');
+  
+    // const decoder = new TextDecoder();
+    // let message = '';
+    // setMessages((prev) => [...prev, { text: message, isGpt: true }]);
+
+    // while (true){
+    //   const {value, done} = await reader.read();
+    //   if (done) break;
+
+    //   const decodedChunk = decoder.decode(value, {stream: true});
+    //   message += decodedChunk;
+
+      // setMessages((prev) => {
+      //   const lastMessages = [...prev];
+      //   lastMessages[lastMessages.length - 1].text = message;
+      //   return lastMessages;
+      // })
+    // }
   }
 
   return (
