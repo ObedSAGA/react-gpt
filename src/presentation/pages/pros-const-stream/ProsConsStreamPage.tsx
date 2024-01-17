@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GptMessage, MyMessage, TypingLoader, TextMessageBox } from "../../components";
 import { ProsConsStreamGeneratorUseCase } from "../../../core/use-cases";
 
@@ -11,30 +11,38 @@ interface Message {
 
 export const ProsConsStreamPage = () => {
 
-  
+  const abortController = useRef(new AbortController());
+  const isRunneng = useRef(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([])
 
   const handlePost = async(text: string) => {
+    //Aborta el stream al enviar una nueva consulta.
+    if (isRunneng.current = true) {
+      abortController.current.abort();
+      abortController.current = new AbortController();
+    }
+
     setIsLoading(true);
+    isRunneng.current = true;
     setMessages((prev) => [...prev, { text: text, isGpt: false }]);
 
     // ?? Código con función generadora
 
-    const stream = await ProsConsStreamGeneratorUseCase(text);
+    const stream = ProsConsStreamGeneratorUseCase(text, abortController.current.signal);
     setIsLoading(false);
-
-    setMessages((prev) => [...prev, { text: text, isGpt: true }]);
+    
+    setMessages((prev) => [...prev, { text: '', isGpt: true }]);
     
     for await (const text of stream) {
       setMessages((prev) => {
         const lastMessages = [...prev];
         lastMessages[lastMessages.length - 1].text = text;
         return lastMessages;
-      })
+      });
     }
-
+    isRunneng.current = true;
 
   // ??Código sin el uso de función generadores.
     // const reader = await ProsConsStreamUseCase(text);
