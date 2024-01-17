@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 
 interface Props{
-    onSendMessage: (message: string) => void;
+    onSendMessage: (message: string, selectedOption: string) => void;
     placeholder?: string;
     disableCorrection?: boolean;
     options: Option[];
@@ -14,14 +14,16 @@ interface Option {
 
 export const TextMessageBoxSelect = ({onSendMessage, placeholder, disableCorrection = false, options}: Props) => {
     
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState<string>('');
     const [selectedOption, setSelectedOption] = useState<string>('')
     
     const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (message.trim().length === 0) return;
 
-        onSendMessage(message);
+        if (message.trim().length === 0) return;
+        if (selectedOption === '') return;
+
+        onSendMessage(message, selectedOption);
         setMessage('');
     }
     
@@ -42,18 +44,18 @@ export const TextMessageBoxSelect = ({onSendMessage, placeholder, disableCorrect
                     autoCorrect={ disableCorrection ? 'off' : 'on'}      
                     spellCheck={disableCorrection ? 'false' : 'true'}     
                     value={message}
-                    onChange={ (e) => setSelectedOption(e.target.value)}
+                    onChange={ (e) => setMessage(e.target.value)}
                />
                <select 
                     name="select"
                     className="w-2/5 ml-5 border rounded-xl text-gray-800 focus:outline-none focus:border-indigo-300 pl-4 h-10"
                     value={selectedOption}
-                    onChange={e => setMessage(e.target.value)}
+                    onChange={e => setSelectedOption(e.target.value)}
                 >   
                     <option value="">Seleccione una opción</option>
                     {
                         options.map(({id, text}) => (
-                            <option key={id} value={id}>{text}</option>
+                            <option key={id} value={text}>{text}</option>
                         ))
                     }
                </select>
