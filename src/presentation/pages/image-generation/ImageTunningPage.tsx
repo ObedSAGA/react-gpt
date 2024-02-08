@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { GptMessage, MyMessage, TypingLoader, TextMessageBox, GptMessageImage } from "../../components";
+import { GptMessage, MyMessage, TypingLoader, TextMessageBox, GptMessageSelectableImage } from "../../components";
 import { imageGenerationUseCase, imageVariationUseCase } from "../../../core/use-cases";
 
 
@@ -77,7 +77,7 @@ export const ImageTunningPage = () => {
             <span>Editando</span>
             <img
             className="border rounded-xl w-36 h-36 object-contain" 
-            src={originalImageAndMask.original} 
+            src={originalImageAndMask.mask ?? originalImageAndMask.original} 
             alt="Imagen original" 
             />
             <button onClick={handleVariation} className="btn-primary mt-2">Generar variación</button>
@@ -97,13 +97,14 @@ export const ImageTunningPage = () => {
               messages.map((message, index) => (
                 message.isGpt
                 ? (
-                  <GptMessageImage 
+                  // <GptMessageImage/> 
+                  <GptMessageSelectableImage
                     key={index} 
                     alt={message.info!.alt} 
                     imageUrl={message.info!.imageUrl} 
-                    onImageSelected={(url) => setOriginalImageAndMask({
-                      original: url,
-                      mask: undefined
+                    onImageSelected={(maskImageUrl) => setOriginalImageAndMask({
+                      original: message.info?.imageUrl,
+                      mask: maskImageUrl
                     })}
                   />
                 )
