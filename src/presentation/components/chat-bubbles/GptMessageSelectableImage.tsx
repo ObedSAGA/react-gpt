@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from "react";
 
 interface Props {
     imageUrl: string;
-    alt: string;
+    alt?: string;
     onImageSelected?: (imageUrl: string) => void;
 
 }
 
 
-export const GptMessageSelectableImage = ({ imageUrl, alt, onImageSelected }: Props) => {
+export const GptMessageSelectableImage = ({ imageUrl, onImageSelected }: Props) => {
 
     const originalImageRef = useRef<HTMLImageElement>();
     const canvasRef = useRef<HTMLCanvasElement>(null);
