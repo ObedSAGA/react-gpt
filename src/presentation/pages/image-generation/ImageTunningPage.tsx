@@ -16,14 +16,7 @@ interface Message {
 export const ImageTunningPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([{
-    text: 'Imagen base',
-    isGpt: true,
-    info: {
-      imageUrl: 'http://localhost:3000/gpt/image-generation/1707237496120.png',
-      alt: 'Japón futurista'
-    }
-  }]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [originalImageAndMask, setOriginalImageAndMask] = useState({
     original: undefined as string | undefined,
     mask: undefined as string | undefined
@@ -94,7 +87,7 @@ export const ImageTunningPage = () => {
           <div className="grid grid-cols-12 gap-y-2">
 
             {/* {Bienvenida} */}
-            <GptMessage text="¡Hola!, ¿buscas inspiración? dime una idea y te ayudaré." />
+            <GptMessage text="¡Hola!, ¿quieres generar una imagen y editarla?. Yo te puedo ayudar 🥑 " />
 
             {
               messages.map((message, index) => (
